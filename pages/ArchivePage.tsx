@@ -186,12 +186,12 @@ const ArchivePage: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonCard>
+      <IonCard>
           <IonCardContent>
             <IonGrid>
               <IonRow>
-                <IonCol size="2">
-                  <IonItem>
+                <IonCol size="11">
+                  <IonItem >
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DateTimePicker
                         label="From Date"
@@ -203,7 +203,9 @@ const ArchivePage: React.FC = () => {
                   </IonItem>
                   {errorFromdate && <IonText color="danger">{errorFromdate}</IonText>}
                 </IonCol>
-                <IonCol size="2">
+                </IonRow>
+                <IonRow>
+                <IonCol size="11">
                   <IonItem>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DateTimePicker
@@ -216,8 +218,10 @@ const ArchivePage: React.FC = () => {
                   </IonItem>
                   {errorTodate && <IonText color="danger">{errorTodate}</IonText>}
                 </IonCol>
+                </IonRow>
+                <IonRow>
                 {clientGroupList.length > 0 && (
-                  <IonCol size="3">
+                  <IonCol size="5">
                     <IonItem>
                       <IonLabel>Group</IonLabel>
                       <IonSelect value={selectedGroup} onIonChange={handleGroupChange}>
@@ -230,9 +234,9 @@ const ArchivePage: React.FC = () => {
                     </IonItem>
                   </IonCol>
                 )}
-                <IonCol size="3">
+                <IonCol size="7">
                   <IonItem>
-                    <IonLabel>Camera</IonLabel>
+                    <IonLabel>Cameras</IonLabel>
                     <IonSelect multiple value={selectedCameras} onIonChange={(e) => setSelectedCameras(e.detail.value)}>
                       {(clientGroupList.length > 0 ? camerasByGroupId : camerawithoutGroups).map((camera) => (
                         <IonSelectOption key={camera.deviceid} value={camera}>
