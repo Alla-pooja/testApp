@@ -1,0 +1,60 @@
+import React, { useEffect, useState } from 'react';
+import { IonContent, IonPage, IonButton, IonLoading, IonToast } from '@ionic/react';
+import axios from 'axios';
+
+const ContactUs: React.FC = () => {
+  const [contactNumber, setContactNumber] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string>('');
+
+  useEffect(() => {
+    const fetchContactNumber = async () => {
+      try {
+        const response = await axios.get('http://192.168.30.105:9002/client/contact-number');
+        if (response.status === 200) {
+          setContactNumber(response.data.phoneNumber);
+        } else {
+          setToastMessage('Failed to fetch contact number.');
+          setShowToast(true);
+        }
+      } catch (error) {
+        console.error("Error fetching contact number", error);
+        setToastMessage('An error occurred. Please try again.');
+        setShowToast(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContactNumber();
+  }, []);
+
+  const handleContactClick = () => {
+    window.location.href = `tel:${contactNumber}`;
+  };
+
+  return (
+    <IonPage>
+      <IonContent className="ion-padding">
+        {loading ? (
+          <IonLoading isOpen={loading} message={'Loading...'} />
+        ) : (
+          <>
+            <IonButton expand="full" onClick={handleContactClick} disabled={!contactNumber}>
+              Contact Us
+            </IonButton>
+            <IonToast
+              isOpen={showToast}
+              onDidDismiss={() => setShowToast(false)}
+              message={toastMessage}
+              duration={2000}
+            />
+          </>
+        )}
+      </IonContent>
+    </IonPage>
+  );
+};
+
+export default ContactUs;
